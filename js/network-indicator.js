@@ -4,7 +4,8 @@ var drawContext = null;
 var canvas = null;
 var dataNetwork = new Array();
 var maxPayloadLength = 0;
-var maxLineHeight = 19;
+var maxLineHeight = 17;
+var lineColorIncoming = '#0000ff';
 
 Array.prototype.max = function() {
     return Math.max.apply(null, this)
@@ -22,7 +23,7 @@ function main() {
 }
 
 function init() {
-    dataNetwork = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    dataNetwork = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     canvas = window.document.getElementById(canvasID);
     drawContext = canvas.getContext('2d');
 }
@@ -59,18 +60,28 @@ function processData(data) {
 
 function frameHelper(ctx) {
     ctx.fillRect(0, 0, 19, 19);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(1, 1, 17, 17);
 }
 
 function drawDataLines(drawContext) {
     drawBackrgound();
     for (var i = 0; i < dataNetwork.length; i++) {
-        var valPerc = dataNetwork[i] * 100 / dataNetwork.max(); // maxPayloadLength
+        var valPerc = dataNetwork[i] * 100 / dataNetwork.max();
         var lineHeigth = Math.max(1, (maxLineHeight * valPerc / 100));
         drawContext.lineWidth = 1;
         drawContext.beginPath();
-        drawContext.moveTo(i - 0.5, maxLineHeight - lineHeigth);
-        drawContext.lineTo(i - 0.5, maxLineHeight);
-        drawContext.strokeStyle = '#ffffff';
+        var xStart = Math.max(1, (i + 1) - 0.5);
+        var xEnd = xStart;
+        var yStart = (maxLineHeight - lineHeigth) + 1;
+        var yEnd = maxLineHeight + 1;
+        console.log('xStart: ' + xStart);
+        console.log('xEnd: ' + xEnd);
+        console.log('yStart: ' + yStart);
+        console.log('yEnd: ' + yEnd);
+        drawContext.moveTo(xStart, yStart);
+        drawContext.lineTo(xEnd, yEnd);
+        drawContext.strokeStyle = lineColorIncoming;
         drawContext.stroke();
     }
     refreshView();
