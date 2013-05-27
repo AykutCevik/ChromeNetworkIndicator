@@ -5,7 +5,9 @@ var canvas = null;
 var dataNetwork = new Array();
 var maxPayloadLength = 0;
 var maxLineHeight = 17;
-var lineColorIncoming = '#0000ff';
+var lineColorIncoming = '#0092e6';
+var syncTimeout = 2000
+var persitedData = null;
 
 Array.prototype.max = function() {
     return Math.max.apply(null, this)
@@ -17,7 +19,7 @@ Array.prototype.min = function() {
 
 function main() {
     init();
-    drawBackrgound();
+    drawBackground();
     refreshView();
     initializeListener();
 }
@@ -26,9 +28,31 @@ function init() {
     dataNetwork = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     canvas = window.document.getElementById(canvasID);
     drawContext = canvas.getContext('2d');
+    loadSettings();
+    setInterval(syncData2Settings, syncTimeout);
 }
 
-function drawBackrgound() {
+function loadSettings() {
+    if (persitedData === null) {
+        console.log('Loading networkData');
+        if ('networkData' in localStorage) {
+            persitedData = JSON.parse(localStorage['networkData']);
+            console.log('Loaded networkData from storage');
+        }
+        else{
+            persitedData = new networkData();
+            localStorage['networkData'] = JSON.stringify(persitedData);
+            console.log('Created new networkData and persisted to storage');
+        }
+    }
+}
+
+function syncData2Settings() {
+    localStorage['networkData'] = JSON.stringify(persitedData);
+    console.log('Persisted networkData');
+}
+
+function drawBackground() {
     drawContext.fillStyle = '#000000';
     frameHelper(drawContext);
     //chrome.browserAction.setIcon({imageData: drawContext.getImageData(0, 0, canvas.width, canvas.height)});
@@ -44,7 +68,7 @@ function processData(data) {
         var header = data.responseHeaders[i];
         if (header.name === 'Content-Length') {
             var dataLength = parseInt(data.responseHeaders[i].value);
-            timeSumContentLength += dataLength;
+            persitedData.incomingData += dataLength;
             dataNetwork.shift();
             dataNetwork.push(dataLength);
             maxPayloadLength = Math.max(dataLength, maxPayloadLength);
@@ -54,8 +78,6 @@ function processData(data) {
 
     // refresh
     drawDataLines(drawContext);
-
-    console.log(timeSumContentLength);
 }
 
 function frameHelper(ctx) {
@@ -65,7 +87,7 @@ function frameHelper(ctx) {
 }
 
 function drawDataLines(drawContext) {
-    drawBackrgound();
+    drawBackground();
     for (var i = 0; i < dataNetwork.length; i++) {
         var valPerc = dataNetwork[i] * 100 / dataNetwork.max();
         var lineHeigth = Math.max(1, (maxLineHeight * valPerc / 100));
@@ -75,10 +97,6 @@ function drawDataLines(drawContext) {
         var xEnd = xStart;
         var yStart = (maxLineHeight - lineHeigth) + 1;
         var yEnd = maxLineHeight + 1;
-        console.log('xStart: ' + xStart);
-        console.log('xEnd: ' + xEnd);
-        console.log('yStart: ' + yStart);
-        console.log('yEnd: ' + yEnd);
         drawContext.moveTo(xStart, yStart);
         drawContext.lineTo(xEnd, yEnd);
         drawContext.strokeStyle = lineColorIncoming;
