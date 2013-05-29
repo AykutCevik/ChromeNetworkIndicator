@@ -2,11 +2,11 @@
     "name": "Network Indicator",
     "version": "1.0",
     "manifest_version": 2,
-    "description": "Shows your continuous network load caused by chrome.",    
+    "description": "Shows your continuous network load caused by chrome.",
     "browser_action": {
         "default_title": "Show network load"
     },
-    "background": { "page": "background.html" },
+    "background": {"page": "background.html"},
     "permissions": [
         "tabs"
     ],
@@ -16,6 +16,12 @@
     "options_page": "options.html",
     "permissions": [
         "webRequest",
-        "<all_urls>"
-    ]
+        "<all_urls>",
+        "http://*/*", 
+        "https://*/*"
+    ],
+    "browser_action": {
+        "default_icon": "img/icon.png",
+        "default_popup": "popup.html"
+    }
 }
