@@ -1,4 +1,4 @@
-var jsClasses = new Array('Constants', 'CanvasHandler', 'LocalStorageProvider', 'NetworkData', 'SettingsProvider', 'NetworkDataHandler', 'Application');
+var jsClasses = new Array('Constants', 'CanvasHandler', 'LocalStorageProvider', 'NetworkData', 'NetworkDataHistory', 'SettingsProvider', 'NetworkDataHandler', 'Application');
 var application = null;
 
 function main() {

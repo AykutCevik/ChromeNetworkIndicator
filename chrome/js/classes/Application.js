@@ -8,6 +8,7 @@ function Application(canvasId) {
     this.canvasContext = null;
     this.canvasHandler = null;
     this.networkData = null;
+    this.networkDataHistory = null;
     this.networkDataHandler = null;
     this.localStorageProvider = new LocalStorageProvider();
     this.settings = new SettingsProvider();
@@ -27,12 +28,17 @@ function Application(canvasId) {
      */
     this.loadNetworkHandler = function() {
         if (this.localStorageProvider.isSet(KEY_NETWORKDATA)) {
-            this.networkData = this.localStorageProvider.get(KEY_NETWORKDATA);
+            this.networkData = new NetworkData(this.localStorageProvider.get(KEY_NETWORKDATA));
         } else {
             this.networkData = new NetworkData();
         }
-        this.networkDataHandler = new NetworkDataHandler(this.networkData);
-        this.networkDataHandler.onHandledIncomingData = function (){
+        if (this.localStorageProvider.isSet(KEY_NETWORKDATAHISTORY)) {
+            this.networkDataHistory = new NetworkDataHistory(this.localStorageProvider.get(KEY_NETWORKDATAHISTORY));
+        } else {
+            this.networkDataHistory = new NetworkDataHistory();
+        }
+        this.networkDataHandler = new NetworkDataHandler(this.networkData, this.networkDataHistory);
+        this.networkDataHandler.onHandledIncomingData = function() {
             application.canvasHandler.draw();
         };
         this.networkDataHandler.attachNetworkEvent();
@@ -47,6 +53,7 @@ function Application(canvasId) {
      */
     this.saveNetworkData = function() {
         this.localStorageProvider.set(KEY_NETWORKDATA, this.networkData);
+        this.localStorageProvider.set(KEY_NETWORKDATAHISTORY, this.networkDataHistory);
     };
 
     /**
