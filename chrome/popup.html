@@ -3,15 +3,32 @@
     <head>
         <title></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+        <script src="js/classes/Constants.js" type="text/javascript"></script>
+        <script src="js/classes/LocalStorageProvider.js" type="text/javascript"></script>
+        <script src="js/classes/NetworkData.js" type="text/javascript"></script>
+        <script src="js/statistics.js" type="text/javascript"></script>
         <style type="text/css">
             body{
-                width: 400px;
+                width: 500px;
+                padding: 10px;
             }
         </style>
     </head>
     <body>
-        <h1>Chrome-Network-Indicator</h1>
-        Statistics:<br />
-        <i>TODO</i>
+        <div class="well">
+            <h1>Statistics</h1>
+            <hr />
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span4"><b>Total:</b></div>
+                    <div class="span8"><span id="totalBytes">-</span> bytes<br /><span id="totalRequests">-</span> requests</div>
+                </div>
+            </div>
+        </div>
+        <div class="alert alert-block">
+            <b>BETA!</b> This application is still in development. Please be patient for a final release :)<br />
+            Stay tuned at <a href="https://github.com/AykutCevik/ChromeNetworkIndicator" target="_blank">github</a>.
+        </div>
     </body>
 </html>

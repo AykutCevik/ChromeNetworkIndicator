@@ -1,7 +1,12 @@
 {
     "name": "Network Indicator",
-    "version": "1.0",
+    "version": "0.1",
     "manifest_version": 2,
+    "icons": {
+        "16": "img/icon16.png",
+        "48": "img/icon48.png",
+        "128": "img/icon128.png"
+    },
     "description": "Shows your continuous network load caused by chrome.",
     "browser_action": {
         "default_title": "Show network load"
@@ -17,7 +22,7 @@
     "permissions": [
         "webRequest",
         "<all_urls>",
-        "http://*/*", 
+        "http://*/*",
         "https://*/*"
     ],
     "browser_action": {
