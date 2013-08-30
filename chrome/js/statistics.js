@@ -18,8 +18,20 @@ function loadData() {
     var tmpNetworkData = storageProvider.get(KEY_NETWORKDATA);
     var networkData = new NetworkData(tmpNetworkData);
 
+    //totalBytesDom.innerHTML = parseSize(networkData.incomingData);
     totalBytesDom.innerHTML = addThousandCommas(networkData.incomingData);
     totalRequestsDom.innerHTML = addThousandCommas(networkData.requestCount);
+}
+
+// human readable output?
+function parseSize(size) {
+    var suffix = ["yBtes", "Kb", "Mb", "Gb", "Tb", "Pb"],
+    tier = 0;
+    while(size >= 1024) {
+        size = size / 1024;
+        tier++;
+    }
+    return Math.round(size * 10) / 10 + " " + suffix[tier];
 }
 
 function addThousandCommas(nStr)
