@@ -1,0 +1,14 @@
+//  TYPOGRAPHIE
+@import url(http://fonts.googleapis.com/css?family=Roboto);
+@import url(http://fonts.googleapis.com/css?family=Oswald:400,700);
+
+$blueprint-font-family: 'Roboto', sans-serif;
+$blueprint-fixed-font-family: "andale mono", "lucida console", monospace;
+$blueprint-font-size: 14px;
+
+// GRID
+
+$total-columns  : 8;             // a 12-column grid
+$column-width   : 4em;            // each column is 4em wide
+$gutter-width   : 1em;            // 1em gutters between columns
+$grid-padding   : $gutter-width;
