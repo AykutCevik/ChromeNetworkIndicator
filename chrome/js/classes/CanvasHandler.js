@@ -22,9 +22,12 @@ function CanvasHandler(context) {
      * Draws lines representing the network load
      * @returns {void}
      */
-    this.drawLoadLines = function() {
-        for (var i = 0; i < application.networkDataHandler.catchedData.length; i++) {
-            var valPerc = application.networkDataHandler.catchedData[i] * 100 / application.networkDataHandler.catchedData.max();
+    this.drawLoadLines = function(type) {
+
+        var count = type == 'incoming' ? application.networkDataHandler.catchedData.length : application.networkDataHandler.sentData.length;
+        var data = type == 'incoming' ? application.networkDataHandler.catchedData : application.networkDataHandler.sentData;
+        for (var i = 0; i < count; i++) {
+            var valPerc = data[i] * 100 / data.max();
             var lineHeigth = Math.max(1, (this.maxLineHeight * valPerc / 100));
             this.context.lineWidth = 1;
             this.context.beginPath();
@@ -34,7 +37,7 @@ function CanvasHandler(context) {
             var yEnd = this.maxLineHeight + 1;
             this.context.moveTo(xStart, yStart);
             this.context.lineTo(xEnd, yEnd);
-            this.context.strokeStyle = application.settings.colorIncomingData;
+            this.context.strokeStyle = type == 'incoming' ? application.settings.colorIncomingData : application.settings.outgoingData;
             this.context.stroke();
         }
     };
@@ -43,9 +46,9 @@ function CanvasHandler(context) {
      * Draws the application
      * @returns {void}
      */
-    this.draw = function() {
+    this.draw = function(type) {
         this.drawBackground();
-        this.drawLoadLines();
+        this.drawLoadLines(type);
         chrome.browserAction.setIcon({imageData: this.context.getImageData(0, 0, 19, 19)});
     };
 }

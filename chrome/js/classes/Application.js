@@ -39,7 +39,10 @@ function Application(canvasId) {
         }
         this.networkDataHandler = new NetworkDataHandler(this.networkData, this.networkDataHistory);
         this.networkDataHandler.onHandledIncomingData = function() {
-            application.canvasHandler.draw();
+            application.canvasHandler.draw('incoming');
+        };
+        this.networkDataHandler.onHandledOutgoingData = function() {
+            application.canvasHandler.draw('outgoing');
         };
         this.networkDataHandler.attachNetworkEvent();
         setInterval(function() {

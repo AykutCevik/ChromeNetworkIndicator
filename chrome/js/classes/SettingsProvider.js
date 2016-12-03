@@ -6,7 +6,7 @@
 function SettingsProvider(localStorageProvider){
     this.localStorageProvider = localStorageProvider;
     this.dataSyncTimeout = 2000;
-    this.colorIncomingData = '#0092e6';
+    this.colorIncomingData = '#005081';
     this.colorOutgoingData = '#000000';
     
     /**

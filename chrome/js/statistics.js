@@ -5,6 +5,8 @@ var totalRequestsDom = null;
 function init() {
     totalBytesDom = document.getElementById('totalBytes');
     totalRequestsDom = document.getElementById('totalRequests');
+    totalBytesSentDom = document.getElementById('totalBytesSent');
+    totalRequestsSentDom = document.getElementById('totalRequestsSent');
 
     if (storageProvider === null) {
         storageProvider = new LocalStorageProvider();

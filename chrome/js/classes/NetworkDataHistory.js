@@ -4,6 +4,7 @@
  */
 function NetworkDataHistory(jsonObj) {
     this.history = [];
+    this.sentHistory = [];
 
     if (jsonObj !== undefined) {
         for (attr in jsonObj) {
@@ -12,15 +13,28 @@ function NetworkDataHistory(jsonObj) {
     }
 
     /**
-     * 
+     *
      * @param {Number} byteCount
      * @returns {void}
      */
-    this.addData = function(byteCount) {
+    this.addData = function (byteCount) {
         var today = moment().format('L'); // can change in a session
         if (this.history[today] === undefined) {
             this.history[today] = 0;
         }
         this.history[today] += byteCount;
+    };
+
+    /**
+     *
+     * @param {Number} byteCount
+     * @returns {void}
+     */
+    this.addSentData = function (byteCount) {
+        var today = moment().format('L'); // can change in a session
+        if (this.sentHistory[today] === undefined) {
+            this.sentHistory[today] = 0;
+        }
+        this.sentHistory[today] += byteCount;
     };
 }

@@ -8,6 +8,7 @@ function NetworkData(jsonObj) {
     this.incomingData = 0;
     this.outgoingData = 0;
     this.requestCount = 0;
+    this.outgoingRequestCount = 0;
 
     if (jsonObj !== undefined) {
         for (attr in jsonObj){
@@ -23,5 +24,15 @@ function NetworkData(jsonObj) {
     this.sumRequest = function(byteCount) {
         this.incomingData += byteCount;
         this.requestCount++;
+    };
+
+    /**
+     *
+     * @param {Number} byteCount
+     * @returns {void}
+     */
+    this.sumSentRequest = function(byteCount) {
+        this.outgoingData += byteCount;
+        this.outgoingRequestCount++;
     };
 }
